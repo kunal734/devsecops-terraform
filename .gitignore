@@ -1,0 +1,106 @@
+# Terraform files
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfstate.*.backup
+*.tfstate
+*.tfstate.backup
+
+# Terraform plan files
+tfplan
+*.tfplan
+plan.out
+
+# Variable files with sensitive data
+*.tfvars
+*.tfvars.json
+!example.tfvars
+
+# Environment files
+.env
+.env.local
+
+# SSH Key Pairs
+*.pem
+*.pub
+*.key
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.vscode/settings.json
+
+# OS files
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Logs
+*.log
+logs/
+log.txt
+
+# Build and dependency directories
+node_modules/
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# AWS files
+credentials
+config
+aws-creds.json
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Cloud provider files
+*.aws
+credentials.json
+
+# Crash files
+crash.log
+crash.*.log
+
+# Ignore all .tfvars files except for the example
+terraform.tfvars
+*.auto.tfvars
+
+# Ignore EC2 key pairs
+**/dev-ec2-key.pem
+**/dev-ec2-key.pub
+**/*.pem
+**/*.key
+
+# Ignore any local development files
+local.tf
+local/
+
+# Kubernetes config files
+kubeconfig.yaml
+.kube/
+
+# System files
+.env.*.local
