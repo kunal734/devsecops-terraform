@@ -11,16 +11,17 @@ resource "tls_private_key" "ec2_key" {
 resource "aws_key_pair" "deploykey" {
   key_name   = "dev-ec2-key"
   public_key = tls_private_key.ec2_key.public_key_openssh
+}
 
-  provisioner "local-exec" {
-    command = "echo '${tls_private_key.ec2_key.private_key_pem}' > dev-ec2-key.pem"
-  }
+resource "local_file" "private_key" {
+  content  = tls_private_key.ec2_key.private_key_pem
+  filename = "${path.module}/dev-ec2-key.pem"
 }
 
 module "vpc" {
   source              = "../../modules/vpc"
-  vpc_cidr            = "10.0.0.0/16"
-  public_subnet_cidr  = "10.0.1.0/24"
+  vpc_cidr            = var.vpc_cidr
+  public_subnet_cidr  = var.public_subnet_cidr
   vpc_name            = "dev-vpc"
 }
 
@@ -28,7 +29,7 @@ module "sg" {
   source         = "../../modules/sg"
   vpc_id         = module.vpc.vpc_id
   sg_name        = "dev-sg"
-  ingress_ports  = [22, 8080, 9000, 80, 443]
+  ingress_ports  = var.ingress_ports
 }
 
 module "iam" {
@@ -39,8 +40,7 @@ module "iam" {
 module "ec2" {
   source             = "../../modules/ec2"
   ami                = "ami-0b6c6ebed2801a5cb"
-  # t3.micro is currently the Free Tier‑eligible type in most regions
-  instance_type      = "t3.micro"
+  instance_type      = var.instance_type
   subnet_id          = module.vpc.public_subnet_id
   security_group_id  = module.sg.sg_id
   instance_profile   = module.iam.profile_id
